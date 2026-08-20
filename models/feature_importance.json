@@ -1,0 +1,82 @@
+[
+  {
+    "symptom": "loss_of_appetite",
+    "importance": 0.026247
+  },
+  {
+    "symptom": "muscle_pain",
+    "importance": 0.02446
+  },
+  {
+    "symptom": "pain_behind_the_eyes",
+    "importance": 0.023111
+  },
+  {
+    "symptom": "breathlessness",
+    "importance": 0.022879
+  },
+  {
+    "symptom": "dehydration",
+    "importance": 0.02135
+  },
+  {
+    "symptom": "nausea",
+    "importance": 0.021003
+  },
+  {
+    "symptom": "headache",
+    "importance": 0.020656
+  },
+  {
+    "symptom": "weakness_in_limbs",
+    "importance": 0.020098
+  },
+  {
+    "symptom": "palpitations",
+    "importance": 0.020084
+  },
+  {
+    "symptom": "cough",
+    "importance": 0.019469
+  },
+  {
+    "symptom": "sweating",
+    "importance": 0.019094
+  },
+  {
+    "symptom": "chills",
+    "importance": 0.019083
+  },
+  {
+    "symptom": "weight_loss",
+    "importance": 0.018981
+  },
+  {
+    "symptom": "high_fever",
+    "importance": 0.018901
+  },
+  {
+    "symptom": "chest_pain",
+    "importance": 0.018334
+  },
+  {
+    "symptom": "blurred_and_distorted_vision",
+    "importance": 0.017767
+  },
+  {
+    "symptom": "vomiting",
+    "importance": 0.017341
+  },
+  {
+    "symptom": "diarrhoea",
+    "importance": 0.017268
+  },
+  {
+    "symptom": "throat_irritation",
+    "importance": 0.016983
+  },
+  {
+    "symptom": "dizziness",
+    "importance": 0.016916
+  }
+]

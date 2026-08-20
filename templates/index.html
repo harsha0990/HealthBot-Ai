@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthBot AI — Intelligent Disease Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ══ SVG GLOBAL DEFS ══ -->
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+  <defs>
+    <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="rg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="rg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ══ PARTICLE CANVAS ══ -->
+<canvas id="particles" class="particle-bg"></canvas>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-orb">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#38bdf8"/>
+              <stop offset="1" stop-color="#818cf8"/>
+            </linearGradient>
+            <linearGradient id="logoGradGlow" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#38bdf8" stop-opacity="0.25"/>
+              <stop offset="1" stop-color="#818cf8" stop-opacity="0.25"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="32" height="32" rx="9" fill="url(#logoGradGlow)" stroke="url(#logoGrad)" stroke-width="1.5"/>
+          <rect x="15" y="8" width="6" height="20" rx="3" fill="url(#logoGrad)" fill-opacity="0.4"/>
+          <rect x="8" y="15" width="20" height="6" rx="3" fill="url(#logoGrad)" fill-opacity="0.4"/>
+          <path d="M7 18h5l2.2-4.5 3.6 9 3.2-6.5 2 2.5h6" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">HealthBot</span>
+        <span class="logo-badge">AI</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Panel -->
+  <div class="profile-panel" id="profilePanel">
+    <div class="profile-header" id="profileHeader">
+      <div class="profile-avatar" id="profileAvatar" title="Patient Initials">?</div>
+      <div class="profile-info">
+        <div class="profile-name-row">
+          <div class="profile-name" id="profileName">Patient Profile</div>
+          <button class="edit-pill-btn" id="editNameBtn" title="Edit patient profile" style="display:none">✏️ Edit</button>
+        </div>
+        <div class="profile-meta" id="profileMeta">Enter your details below</div>
+        <div class="patient-id-badge" id="patientIdBadge" style="display:none">ID: HB-00000</div>
+      </div>
+    </div>
+    <div class="profile-fields" id="profileFields">
+      <div class="field-group">
+        <label class="field-label" for="profileNameInput">FULL NAME</label>
+        <input type="text" id="profileNameInput" class="profile-input full" placeholder="Full name (e.g. Ram)" autocomplete="name"/>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <label class="field-label" for="profileAge">AGE (1–120)</label>
+          <input type="number" id="profileAge" class="profile-input" placeholder="Age" min="1" max="120"/>
+        </div>
+        <div class="field-col">
+          <label class="field-label" for="profileGender">GENDER</label>
+          <select id="profileGender" class="profile-input">
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+      </div>
+      <button class="profile-save-btn" id="saveProfile">Save Profile</button>
+    </div>
+  </div>
+
+  <!-- Body System Tabs -->
+  <div class="sys-tabs-section">
+    <div class="section-label">FILTER BY BODY SYSTEM</div>
+    <div class="sys-tabs" id="sysTabs">
+      <button class="sys-tab active" data-system="all">🌐 All</button>
+      <button class="sys-tab" data-system="respiratory">🫁 Respiratory</button>
+      <button class="sys-tab" data-system="cardiovascular">❤️ Cardiac</button>
+      <button class="sys-tab" data-system="digestive">🫃 Digestive</button>
+      <button class="sys-tab" data-system="neurological">🧠 Neuro</button>
+      <button class="sys-tab" data-system="musculoskeletal">🦴 Muscle</button>
+      <button class="sys-tab" data-system="dermatological">🩹 Skin</button>
+      <button class="sys-tab" data-system="urinary">💧 Urinary</button>
+      <button class="sys-tab" data-system="endocrine">⚗️ Endocrine</button>
+      <button class="sys-tab" data-system="mental_health">🧘 Mental</button>
+      <button class="sys-tab" data-system="infectious">🦠 Infectious</button>
+    </div>
+  </div>
+
+  <!-- Quick Symptoms -->
+  <div class="sidebar-section">
+    <div class="section-label">QUICK SYMPTOMS</div>
+    <div class="quick-symptoms" id="quickSymptoms">
+      <button class="sym-chip" data-sym="fever">🌡️ Fever</button>
+      <button class="sym-chip" data-sym="headache">🤕 Headache</button>
+      <button class="sym-chip" data-sym="cough">😤 Cough</button>
+      <button class="sym-chip" data-sym="fatigue">😴 Fatigue</button>
+      <button class="sym-chip" data-sym="nausea">🤢 Nausea</button>
+      <button class="sym-chip" data-sym="chest pain">💔 Chest Pain</button>
+      <button class="sym-chip" data-sym="shortness of breath">😮‍💨 Breathless</button>
+      <button class="sym-chip" data-sym="dizziness">💫 Dizziness</button>
+      <button class="sym-chip" data-sym="back pain">🦴 Back Pain</button>
+      <button class="sym-chip" data-sym="joint pain">🦵 Joint Pain</button>
+      <button class="sym-chip" data-sym="skin rash">🔴 Skin Rash</button>
+      <button class="sym-chip" data-sym="anxiety">😰 Anxiety</button>
+      <button class="sym-chip" data-sym="stomach pain">🤒 Stomach Pain</button>
+      <button class="sym-chip" data-sym="sore throat">😷 Sore Throat</button>
+      <button class="sym-chip" data-sym="vomiting">🤮 Vomiting</button>
+      <button class="sym-chip" data-sym="diarrhea">💊 Diarrhea</button>
+    </div>
+  </div>
+
+  <!-- Emergency Contacts -->
+  <div class="sidebar-section">
+    <div class="section-label">EMERGENCY CONTACTS</div>
+    <div class="emergency-grid">
+      <div class="contact-card">🇮🇳 India<strong>112</strong></div>
+      <div class="contact-card">🇺🇸 USA<strong>911</strong></div>
+      <div class="contact-card">🇬🇧 UK<strong>999</strong></div>
+      <div class="contact-card">🇦🇺 AUS<strong>000</strong></div>
+    </div>
+  </div>
+
+  <!-- Health History -->
+  <div class="sidebar-section">
+    <div class="section-label">RECENT HISTORY</div>
+    <div class="history-list" id="historyList">
+      <div class="history-empty">No sessions yet</div>
+    </div>
+  </div>
+
+  <div class="disclaimer-box">
+    ⚠️ <strong>Medical Disclaimer:</strong> HealthBot AI is for informational purposes only. Always consult a qualified healthcare professional.
+  </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main-content" id="mainContent">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menuBtn">☰</button>
+    <div class="topbar-center">
+      <div class="status-indicator">
+        <div class="status-pulse"></div>
+        <span>HealthBot AI · Online</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <button class="action-btn" id="historyBtn" title="Health History">📋</button>
+      <button class="action-btn" id="clearBtn" title="New Chat">🔄</button>
+    </div>
+  </header>
+
+  <!-- Chat Window -->
+  <div class="chat-window" id="chatWindow">
+    <div class="welcome-card" id="welcomeCard">
+      <div class="welcome-orb">
+        <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="35" stroke="url(#wg)" stroke-width="2" fill="none" stroke-dasharray="8 4" class="spin-ring"/><circle cx="40" cy="40" r="24" fill="url(#wg2)" opacity="0.15"/><text x="40" y="48" text-anchor="middle" font-size="24">⚕️</text><defs><linearGradient id="wg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#818cf8"/></linearGradient><linearGradient id="wg2" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#818cf8"/></linearGradient></defs></svg>
+      </div>
+      <h1 class="welcome-title">HealthBot <span class="gradient-text">AI</span></h1>
+      <p class="welcome-sub">AI-powered symptom analysis & disease prediction</p>
+      <div class="feature-pills">
+        <div class="pill">🔬 RF Prediction</div>
+        <div class="pill">👤 Patient Profile</div>
+        <div class="pill">📊 Confidence Rings</div>
+        <div class="pill">🖨️ Print Report</div>
+        <div class="pill">🏃 Fitness Tips</div>
+        <div class="pill">💊 Medications</div>
+      </div>
+      <p class="welcome-hint">Describe your symptoms below to get started</p>
+    </div>
+  </div>
+
+  <!-- Typing Indicator -->
+  <div class="typing-bar" id="typingBar" style="display:none">
+    <div class="typing-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <span>Analyzing symptoms…</span>
+  </div>
+
+  <!-- Input Area -->
+  <div class="input-area">
+    <div class="input-wrapper">
+      <button class="attach-btn" id="voiceBtn" title="Voice input">🎤</button>
+      <textarea id="userInput" placeholder="Describe your symptoms… e.g. 'I have fever, headache and body aches for 3 days'" rows="1" maxlength="600"></textarea>
+      <button class="send-btn" id="sendBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="input-footer">
+      <span class="input-hint"><kbd>Enter</kbd> send · <kbd>Shift+Enter</kbd> newline</span>
+      <span class="char-count" id="charCount">0/600</span>
+    </div>
+  </div>
+</main>
+
+<!-- ══ DETAIL MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay" style="display:none">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ══ HISTORY PANEL ══ -->
+<div class="history-panel" id="historyPanel" style="display:none">
+  <div class="history-panel-header">
+    <h3>📋 Health History</h3>
+    <button class="icon-btn" id="historyClose">✕</button>
+  </div>
+  <div class="history-panel-body" id="historyPanelBody">
+    <div class="loading-spinner"></div>
+  </div>
+</div>
+
+<!-- ══ PRINT TEMPLATE (hidden) ══ -->
+<div id="printTemplate" style="display:none"></div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
