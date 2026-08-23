@@ -139,7 +139,6 @@ CREATE TABLE health_history (
     FOREIGN KEY(patient_id) REFERENCES patients(id)
 );
 ```
-
 ---
 
 ## 🤖 Machine Learning Model Architecture
